@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="JDBC Tutorial" default="all" basedir=".">
+  <property name="ANTPROPERTIES" value="properties/app-properties.xml"/>
+  <import file="${ANTPROPERTIES}"/>
+
+  <target name="compile">
+    <mkdir dir="classes"/>
+    <echo message="Compilation..."/>
+    <javac srcdir="src" destdir="classes" fork="yes" executable="${JAVAC}"
+           classpathref="CLASSPATH" debug="on" includeantruntime="false">
+      <compilerarg value="-Xlint:unchecked"/>
+      <compilerarg value="-Xlint:deprecation"/>
+    </javac>
+  </target>
+
+  <target name="jar" depends="compile">
+    <mkdir dir="lib"/>
+    <jar destfile="lib/VerseMapper.jar" basedir="classes"/>
+  </target>
+
+  <target name="setup">
+      <antcall target="drop-tables"/>
+      <antcall target="build-tables"/>
+      <antcall target="populate-tables"/>
+  </target>
+
+  <target name="clean">
+    <delete dir="classes"/>
+  </target>
+
+  <target name="populate-verses">
+    <java classname="com.jesusnear.versemapper.PopulateVerses"
+          classpathref="CLASSPATH" fork="true" dir=".">
+      <arg value="${PROPERTIESFILE}"/>
+    </java>
+  </target>
+
+  <target name="drop-tables">
+    <sql driver="${DB.DRIVER}" url="${DB.URL}" userid="${DB.USER}"
+         password="${DB.PASSWORD}" classpathref="CLASSPATH"
+         delimiter="${DB.DELIMITER}" autocommit="false" onerror="continue">
+      <transaction src="./sql/drop-tables.sql"></transaction>
+    </sql>
+  </target>
+
+  <target name="populate-tables" description="Populate database tables">
+    <sql driver="${DB.DRIVER}" url="${DB.URL}" userid="${DB.USER}"
+         password="${DB.PASSWORD}" classpathref="CLASSPATH"
+         delimiter="${DB.DELIMITER}" autocommit="false" onerror="continue">
+      <transaction src="./sql/populate-tables.sql"></transaction>
+    </sql>
+  </target>
+
+   <target name="build-tables" description="Create database tables">
+    <sql driver="${DB.DRIVER}" url="${DB.URL}" userid="${DB.USER}"
+         password="${DB.PASSWORD}" classpathref="CLASSPATH"
+         delimiter="${DB.DELIMITER}" autocommit="false" onerror="continue">
+      <transaction src="./sql/create-tables.sql"></transaction>
+    </sql>
+  </target>
+</project>
