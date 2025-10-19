@@ -30,7 +30,7 @@ public class VerseRepository {
                             insertVerse.setInt(1, verse.getBook());
                             insertVerse.setInt(2, verse.getChapter());
                             insertVerse.setInt(3, verse.getVerse());
-                            insertVerse.executeUpdate();
+                            insertVerse.addBatch();
                             
                             List<VerseTranslation> translations = verse.getVerseTranslation();
 
@@ -42,13 +42,18 @@ public class VerseRepository {
                                 insertVerseTranslation.setInt(4, verse.getBook());
                                 insertVerseTranslation.setInt(5, verse.getChapter());
                                 insertVerseTranslation.setInt(6, verse.getVerse());
-                                insertVerseTranslation.executeUpdate();
+                                insertVerseTranslation.addBatch();
                             }
 
                             if(i%1000 == 0) {
-                                System.out.println("Inserted " + i + " verses from " + verses.size());
+                                System.out.println("Inserted to batch " + i + " verses from " + verses.size());
                             }
                     }
+                    System.out.println("Execute Verses Batch...");
+                    int[] updateVerseCounts = insertVerse.executeBatch();
+                
+                    System.out.println("Execute Verses Translations Batch...");
+                    int[] updateVerseTranslationsCounts = insertVerseTranslation.executeBatch();
                     System.out.println("Committing transaction...");
                     con.commit(); 
                     System.out.println("Transaction committed!!!");

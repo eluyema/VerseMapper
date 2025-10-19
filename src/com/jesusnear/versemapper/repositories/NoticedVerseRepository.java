@@ -27,11 +27,14 @@ public class NoticedVerseRepository {
                             insertNoticedVerse.setInt(1, verse.book());
                             insertNoticedVerse.setInt(2, verse.chapter());
                             insertNoticedVerse.setInt(3, verse.verse());
-                            insertNoticedVerse.executeUpdate();
+                            insertNoticedVerse.addBatch();
                             if(i%100 == 0) {
                                 System.out.println("Inserted " + i + " noticed verses from " + verses.size());
                             }
                     }
+                    System.out.println("Execute Batch...");
+
+                    insertNoticedVerse.executeBatch();
                     System.out.println("Committing transaction...");
                     con.commit(); 
                     System.out.println("Transaction committed!!!");

@@ -21,7 +21,6 @@
   <target name="setup">
       <antcall target="drop-tables"/>
       <antcall target="build-tables"/>
-      <antcall target="populate-tables"/>
   </target>
 
   <target name="clean">
@@ -52,11 +51,11 @@
     </sql>
   </target>
 
-  <target name="populate-tables" description="Populate database tables">
+  <target name="populate-books" description="Populate database tables">
     <sql driver="${DB.DRIVER}" url="${DB.URL}" userid="${DB.USER}"
          password="${DB.PASSWORD}" classpathref="CLASSPATH"
          delimiter="${DB.DELIMITER}" autocommit="false" onerror="continue">
-      <transaction src="./sql/populate-tables.sql"></transaction>
+      <transaction src="./sql/populate-table-books.sql"></transaction>
     </sql>
   </target>
 
