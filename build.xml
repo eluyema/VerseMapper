@@ -32,6 +32,7 @@
     <java classname="com.jesusnear.versemapper.PopulateVerses"
           classpathref="CLASSPATH" fork="true" dir=".">
       <arg value="${PROPERTIESFILE}"/>
+      <arg value="${BIBLEPROPERTIESFILE}"/>
     </java>
   </target>
 
