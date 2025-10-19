@@ -11,7 +11,7 @@ import com.jesusnear.versemapper.models.Verse;
 import com.jesusnear.versemapper.models.VerseTranslation;
 
 public class VerseFileLoader implements VersesLoader {
-    public List<PlainVerse> loadVersesFromFile(String filePath, String language) throws IOException {
+    public List<PlainVerse> loadVersesFromFile(String filePath) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         
         BibleDto data = mapper.readValue(new File(filePath), BibleDto.class);
@@ -21,7 +21,7 @@ public class VerseFileLoader implements VersesLoader {
                 v.book(),
                 v.chapter(),
                 v.verse(),
-                language,
+                (String) data.getMetadata().get("lang_short"),
                 (String) data.getMetadata().get("shortname"),
                 v.text()
             ))

@@ -36,6 +36,14 @@
     </java>
   </target>
 
+    <target name="populate-noticed-verses">
+    <java classname="com.jesusnear.versemapper.PopulateNoticedVerses"
+          classpathref="CLASSPATH" fork="true" dir=".">
+      <arg value="${PROPERTIESFILE}"/>
+      <arg value="${DATA.NOTICED_VERSES_PATH}"/>
+    </java>
+  </target>
+
   <target name="drop-tables">
     <sql driver="${DB.DRIVER}" url="${DB.URL}" userid="${DB.USER}"
          password="${DB.PASSWORD}" classpathref="CLASSPATH"

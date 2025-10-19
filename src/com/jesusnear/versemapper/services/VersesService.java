@@ -21,9 +21,9 @@ public class VersesService {
         List<PlainVerse> plainVerses = new ArrayList<>();
 
         for(Map.Entry<String, String> entry : mapFilePathToLanguage.entrySet()) {
-            String language = entry.getKey();
             String filePath = entry.getValue();
-            List<PlainVerse> loadedVerses = loader.loadVersesFromFile(filePath, language);
+            
+            List<PlainVerse> loadedVerses = loader.loadVersesFromFile(filePath);
             plainVerses.addAll(loadedVerses);
         }
 
